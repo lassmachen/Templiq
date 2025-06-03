@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verifiziere dein Konto</title>
+    <style>
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #2563eb;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 30px 20px;
+            color: #333;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 25px;
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .footer {
+            padding: 20px;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h1>Konto-Verifizierung</h1>
+    </div>
+    <div class="content">
+        <p>Hallo {{name}}</p>
+        <p>Vielen Dank, dass du dich registriert hast! Bitte bestätige deine E-Mail-Adresse ({{email}}), um dein Konto zu aktivieren.</p>
+        <a class="button" href="https://deinprojekt.de/verify?token=ABC123">Jetzt verifizieren</a>
+        <p>Wenn du dich nicht registriert hast, kannst du diese E-Mail ignorieren.</p>
+    </div>
+    <div class="footer">
+        © 2025 DeinProjekt · Alle Rechte vorbehalten
+    </div>
+</div>
+</body>
+</html>
