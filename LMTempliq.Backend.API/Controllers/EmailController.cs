@@ -25,7 +25,7 @@ public class EmailController : ControllerBase
     }
     
     [HttpPost("plain")]
-    public async Task<IActionResult> SendEmail([FromQuery] string identity, string toName, string toMail, string subject)
+    public async Task<IActionResult> SendEmail([FromQuery] string identity, string toName, string toMail, string subject, string? replyTo = null)
     {
         if (string.IsNullOrWhiteSpace(identity) || string.IsNullOrWhiteSpace(toName) || string.IsNullOrWhiteSpace(toMail) || string.IsNullOrWhiteSpace(subject))
         {
@@ -35,14 +35,31 @@ public class EmailController : ControllerBase
 
         using var reader = new StreamReader(Request.Body);
         var body = await reader.ReadToEndAsync();
+
+        if (!string.IsNullOrWhiteSpace(replyTo))
+        {
+            await _mailManager.SendEmailAsync(identityName: identity,
+                toName: toName, 
+                toMail: toMail, 
+                subject: subject, 
+                body: body,
+                replyTo: replyTo);
+        }
+        else
+        {
+            await _mailManager.SendEmailAsync(identityName: identity,
+                toName: toName, 
+                toMail: toMail, 
+                subject: subject, 
+                body: body);
+        }
         
-        await _mailManager.SendEmailAsync(identity, toName, toMail, subject, body);
         
         return new OkResult();
     }
     
     [HttpPost("template")]
-    public async Task<IActionResult> SendEmailWithTemplate([FromQuery] string identity, string toName, string toMail, string subject, string template)
+    public async Task<IActionResult> SendEmailWithTemplate([FromQuery] string identity, string toName, string toMail, string subject, string template, string? replyTo = null)
     { 
         if (string.IsNullOrWhiteSpace(identity) || string.IsNullOrWhiteSpace(toName) || string.IsNullOrWhiteSpace(toMail) || string.IsNullOrWhiteSpace(subject) || string.IsNullOrWhiteSpace(template))
         {
@@ -60,7 +77,23 @@ public class EmailController : ControllerBase
         
         _logger.LogDebug(rendered);
         
-        await _mailManager.SendEmailAsync(identity, toName, toMail, subject, rendered);
+        if (!string.IsNullOrWhiteSpace(replyTo))
+        {
+            await _mailManager.SendEmailAsync(identityName: identity,
+                toName: toName, 
+                toMail: toMail, 
+                subject: subject, 
+                body: rendered,
+                replyTo: replyTo);
+        }
+        else
+        {
+            await _mailManager.SendEmailAsync(identityName: identity,
+                toName: toName, 
+                toMail: toMail, 
+                subject: subject, 
+                body: rendered);
+        }
 
         return new OkResult();
     }
